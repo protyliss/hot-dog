@@ -6,3 +6,4 @@ package-lock.json
 
 dist.crx
 dist.pem
+dist.zip
