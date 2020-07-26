@@ -4,3 +4,5 @@ tests/
 dist/
 package-lock.json
 
+dist.crx
+dist.pem
