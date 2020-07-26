@@ -1,0 +1,43 @@
+{
+  "name": "Hot Dog",
+  "version": "1.0",
+  "description": "HTML and External Resource Auto Re-loader",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "*://*/*"
+  ],
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "page_action": {
+    "title": "Hot Dog",
+    "default_icon": {
+      "16": "assets/gray-dog-16.png",
+      "32": "assets/gray-dog-32.png",
+      "64": "assets/gray-dog-64.png",
+      "128": "assets/gray-dog-128.png"
+    }
+  },
+  "content_scripts": [
+      {
+        "matches": [
+          "http://localhost:63342/*"
+        ],
+        "js": [
+          "content.js"
+        ]
+      }
+  ],
+  "icons": {
+    "16": "assets/hot-dog-16.png",
+    "32": "assets/hot-dog-32.png",
+    "64": "assets/hot-dog-64.png",
+    "128": "assets/hot-dog-128.png"
+  },
+  "manifest_version": 2
+}
