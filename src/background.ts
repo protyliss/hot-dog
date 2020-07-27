@@ -15,7 +15,7 @@ const OBSERVE_TARGETS: {
     }
 } = {};
 
-const FETCH_DELAY = 2500;
+const FETCH_DELAY = 2000;
 
 function error(message: string) {
     return {
@@ -149,13 +149,13 @@ function request(url: string) {
         .then(response => {
             const {headers} = response;
 
-            const cacheControl = headers.get('Cache-Control');
+            // const cacheControl = headers.get('Cache-Control');
             const lastModified = headers.get('Last-Modified');
 
             const {waiters} = target;
             const tabIds = Object.keys(waiters);
 
-            if (!lastModified || (cacheControl && cacheControl.indexOf('no-') > -1)) {
+            if (!lastModified/* || (cacheControl && cacheControl.indexOf('no-') > -1)*/) {
                 tabIds.forEach(tabId => {
                     waiters[Number(tabId)](null);
                 });
@@ -206,6 +206,10 @@ function pageActionEnable(tab: HasTabId) {
 
             localStorage.setItem(getTabHost(tab), String(Date.now()));
             setPageActionIcon(tabId, 'hot-dog-128.png');
+            chrome.pageAction.setTitle({
+                tabId,
+                title: 'Disable Hot Dog!'
+            });
         });
 }
 
@@ -222,7 +226,10 @@ function pageActionDisable(tab: Tab) {
 
             localStorage.removeItem(getTabHost(tab));
             setPageActionIcon(tabId, 'gray-dog-128.png');
-
+            chrome.pageAction.setTitle({
+                tabId,
+                title: 'Enable Hot Dog!'
+            });
         });
 }
 
@@ -247,6 +254,8 @@ chrome.tabs.onRemoved.addListener(tabId => {
 });
 
 chrome.runtime.onMessage.addListener(({type, dataset}: { type: string, dataset: any }, sender, send) => {
+    // console.log(type, dataset);
+
     const tabId = getTabId(sender);
     const tabHost = getTabHost(sender);
 

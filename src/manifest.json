@@ -26,7 +26,7 @@
   "content_scripts": [
       {
         "matches": [
-          "http://localhost:63342/*"
+          "*://*/*"
         ],
         "js": [
           "content.js"
